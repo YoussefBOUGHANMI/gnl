@@ -6,7 +6,7 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 10:39:26 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/06 17:13:19 by yboughan         ###   ########.fr       */
+/*   Updated: 2022/02/06 17:22:31 by yboughan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -30,12 +30,13 @@ char *get_big_buffer(int fd , char *rest)
 	{
 		tmp = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
 		nb_buff = read(fd,tmp,BUFFER_SIZE);
-		printf("\n nb : %d \n" , nb_buff);
+//		printf("\n\n---ss----\n    %s    \n---dd---  \n\n" , big_buffer);
 		if (nb_buff == 0)
 			return(big_buffer);
 		tmp[nb_buff] = '\0';
 		flag_newl = is_new_line(big_buffer);
 		big_buffer = ft_strjoin(big_buffer , tmp);
+		printf("\n\n---ss----\n    %s    \n---dd---  \n\n" , big_buffer);
 		free(tmp);
 	}
 	return (big_buffer);
