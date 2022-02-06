@@ -6,7 +6,7 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 10:39:26 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/06 17:22:31 by yboughan         ###   ########.fr       */
+/*   Updated: 2022/02/06 20:30:40 by Youssef          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -17,26 +17,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *get_big_buffer(int fd , char *rest)
+char *get_big_buffer(int fd , char *rest , int *nb_buff)
 {
 	char *tmp;
 	char *big_buffer;
 	int flag_newl = 0;
-	int nb_buff = 0;
 
 	big_buffer = "\0";
 	big_buffer = ft_strjoin(big_buffer , rest);
+	flag_newl = is_new_line(big_buffer);
 	while (flag_newl == 0 )
 	{
 		tmp = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
-		nb_buff = read(fd,tmp,BUFFER_SIZE);
-//		printf("\n\n---ss----\n    %s    \n---dd---  \n\n" , big_buffer);
-		if (nb_buff == 0)
+		*nb_buff = read(fd,tmp,BUFFER_SIZE);
+		if (*nb_buff == 0)
 			return(big_buffer);
-		tmp[nb_buff] = '\0';
+		tmp[*nb_buff] = '\0';
 		flag_newl = is_new_line(big_buffer);
 		big_buffer = ft_strjoin(big_buffer , tmp);
-		printf("\n\n---ss----\n    %s    \n---dd---  \n\n" , big_buffer);
+//		printf("\n\n---ss----\n    %s    \n---dd---  \n\n" , big_buffer);
 		free(tmp);
 	}
 	return (big_buffer);
@@ -47,16 +46,16 @@ int is_new_line(char *buffer)
 	int i;
 
 	i = 0;
-	while ( i < BUFFER_SIZE )
+	while (buffer[i] != '\0')
 	{
 		if ( buffer[i] == '\n')
-		{
 			return (1);
-		}
 		i++;
 	}
 	return (0);
 }
+
+
 
 char *get_current_line(char *big_buffer)
 {
@@ -107,6 +106,7 @@ char *get_rest(char *big_buffer)
 }
 
 
+
 char *get_next_line(int fd)
 {
 	static char *rest[1024];
@@ -114,10 +114,19 @@ char *get_next_line(int fd)
 	char *current_line;
 	int nb_buffer;
 	
+	if (BUFFER_SIZE <= 0)
+		return (NULL);	
 	nb_buffer = 0 ;
-	big_buffer = get_big_buffer(fd , rest[fd]);
-//	printf("big bug : %s" , big_buffer);
-//	printf("\nnb_buff : %d \n" , nb_buffer);
+	big_buffer = get_big_buffer(fd , rest[fd] , &nb_buffer);
+/*	if ((nb_buffer == 0 && big_buffer[0]=='\0') || (nb_buffer < 0))
+	{
+		free(big_buffer);
+		return(NULL);
+	}
+*/	printf("\nnb : %d\n" , nb_buffer);
+	printf("\nnl : %d\n" , is_new_line(big_buffer));
+	if (is_new_line(big_buffer) == 0 && nb_buffer == 0 )
+		printf("last : ");
 
 	current_line = get_current_line(big_buffer);
 	rest[fd] = get_rest(big_buffer);

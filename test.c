@@ -29,11 +29,10 @@ int main()
 
 */
 
-
-	while ( i < 5)
+	while ( i < 10)
 	{
 		res = get_next_line(fd1);
-		printf(res);
+		printf("\n res : %s\n " , res);
 		i++;
 	}
 /*
