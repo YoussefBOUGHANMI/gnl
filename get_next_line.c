@@ -6,7 +6,7 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 10:39:26 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/06 20:30:40 by Youssef          ###   ########.fr       */
+/*   Updated: 2022/02/12 18:27:09 by yboughan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -17,28 +17,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *get_big_buffer(int fd , char *rest , int *nb_buff)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char *tmp;
-	char *big_buffer;
+	size_t	i;
+	size_t	len_dst;
+	size_t	len_src;
+
+	i = 0;
+
+	len_dst = ft_strlen(dst);
+	len_src = ft_strlen((char *)src);
+	if (dstsize < len_dst || dstsize == 0)
+		return (len_src + dstsize);
+	while (i + len_dst < dstsize - 1 && src[i])
+	{
+		dst[len_dst + i] = src[i];
+		i++;
+	}
+	dst[len_dst + i] = 0;
+	return (len_dst + len_src);
+}
+
+void	goto_next_line(int fd , char *rest , int *nb_buff)
+{
+	char *tmp[BUFFER_SIZE+1];
 	int flag_newl = 0;
 
-	big_buffer = "\0";
-	big_buffer = ft_strjoin(big_buffer , rest);
-	flag_newl = is_new_line(big_buffer);
-	while (flag_newl == 0 )
+	flag_newl = is_new_line(rest);
+	while (flag_newl == 0 && *nb_buff > 0)
 	{
-		tmp = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
 		*nb_buff = read(fd,tmp,BUFFER_SIZE);
 		if (*nb_buff == 0)
-			return(big_buffer);
-		tmp[*nb_buff] = '\0';
-		flag_newl = is_new_line(big_buffer);
-		big_buffer = ft_strjoin(big_buffer , tmp);
-//		printf("\n\n---ss----\n    %s    \n---dd---  \n\n" , big_buffer);
-		free(tmp);
+			return;
+		tmp[*nb_buff] = 0;
+//		printf("tmp : %s\n" , tmp);
+//		printf("rest : %s\n" , rest);
+		ft_strlcat(rest , tmp , ft_strlen(rest) + *nb_buff + 1);
+		flag_newl = is_new_line(rest);
 	}
-	return (big_buffer);
+	return;
 }
 
 int is_new_line(char *buffer)
@@ -46,6 +63,8 @@ int is_new_line(char *buffer)
 	int i;
 
 	i = 0;
+	if ( buffer == NULL)
+		return(0);
 	while (buffer[i] != '\0')
 	{
 		if ( buffer[i] == '\n')
@@ -54,6 +73,7 @@ int is_new_line(char *buffer)
 	}
 	return (0);
 }
+
 
 
 
@@ -109,27 +129,28 @@ char *get_rest(char *big_buffer)
 
 char *get_next_line(int fd)
 {
-	static char *rest[1024];
-	char *big_buffer;
+	static char rest[1024][1];
 	char *current_line;
 	int nb_buffer;
 	
 	if (BUFFER_SIZE <= 0)
-		return (NULL);	
-	nb_buffer = 0 ;
-	big_buffer = get_big_buffer(fd , rest[fd] , &nb_buffer);
-/*	if ((nb_buffer == 0 && big_buffer[0]=='\0') || (nb_buffer < 0))
+		return (NULL);
+
+	goto_next_line(fd , rest[fd] , &nb_buffer);
+	printf("f : %s \n" , rest[fd]);
+/*
+	if ((nb_buffer == 0 && rest[fd][0]=='\0') || (nb_buffer < 0))
 	{
-		free(big_buffer);
 		return(NULL);
 	}
-*/	printf("\nnb : %d\n" , nb_buffer);
-	printf("\nnl : %d\n" , is_new_line(big_buffer));
-	if (is_new_line(big_buffer) == 0 && nb_buffer == 0 )
+	
+	if (is_new_line(rest[fd]) == 0 && nb_buffer == 0 )
 		printf("last : ");
+*/
+	current_line = get_current_line(rest[fd]);
+	printf(current_line);
+	//get_rest(rest[fd]);
+//	return(current_line);
 
-	current_line = get_current_line(big_buffer);
-	rest[fd] = get_rest(big_buffer);
-	free(big_buffer);
-	return(current_line);
+	return("");
 }

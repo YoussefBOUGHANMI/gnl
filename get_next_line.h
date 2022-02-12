@@ -6,7 +6,7 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 11:14:45 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/05 14:51:45 by yboughan         ###   ########.fr       */
+/*   Updated: 2022/02/12 17:16:41 by yboughan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char *add_buffer(int fd , char *line , int *flag_newl);
 int is_new_line(char *buffer);
 char *get_next_line(int fd);
+void	goto_next_line(int fd , char *rest , int *nb_buff);
 #endif
