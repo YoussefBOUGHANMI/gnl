@@ -6,10 +6,10 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 11:08:29 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/13 14:50:36 by Youssef          ###   ########.fr       */
+/*   Updated: 2022/02/13 14:38:46 by Youssef          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"get_next_line_bonus.h"
+#include"get_next_line.h"
 
 size_t	ft_strlen(char const *str)
 {

@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 10:39:26 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/13 14:35:20 by Youssef          ###   ########.fr       */
+/*   Updated: 2022/02/13 14:53:16 by Youssef          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"get_next_line.h"
+#include"get_next_line_bonus.h"
 
 char	*get_big_buffer(int fd, char *rest)
 {
@@ -92,15 +92,15 @@ char	*get_rest(char *rest)
 
 char	*get_next_line(int fd)
 {
-	static char	*rest;
+	static char	*rest[1024];
 	char		*current_line;
 
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	rest = get_big_buffer(fd, rest);
-	if (!rest)
+	rest[fd] = get_big_buffer(fd, rest[fd]);
+	if (!rest[fd])
 		return (NULL);
-	current_line = get_current_line(rest);
-	rest = get_rest(rest);
+	current_line = get_current_line(rest[fd]);
+	rest[fd] = get_rest(rest[fd]);
 	return (current_line);
 }
