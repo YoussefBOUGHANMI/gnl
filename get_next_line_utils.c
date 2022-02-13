@@ -6,7 +6,7 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 11:08:29 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/13 10:06:04 by youssef          ###   ########.fr       */
+/*   Updated: 2022/02/13 12:24:40 by Youssef          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,23 @@ size_t	ft_strlen(char const *str)
 	return (i);
 }
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+char	*ft_strchr(char *s, int c)
 {
-	size_t	lensrc;
-	size_t	i;
+	int	i;
 
 	i = 0;
-	lensrc = ft_strlen(src);
-	if (size == 0)
-		return (lensrc);
-	while (i < lensrc && src[i] && i < size - 1)
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
+	while (s[i] != '\0')
 	{
-		dest[i] = src[i];
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
 		i++;
 	}
-	dest[i] = 0;
-	return (lensrc);
+	return (0);
 }
-
 
 char	*ft_strjoin(char *left_str, char *buff)
 {
@@ -71,4 +70,3 @@ char	*ft_strjoin(char *left_str, char *buff)
 	free(left_str);
 	return (str);
 }
-
