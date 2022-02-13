@@ -6,7 +6,11 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 10:39:26 by yboughan          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2022/02/13 10:03:02 by youssef          ###   ########.fr       */
+=======
 /*   Updated: 2022/02/12 18:27:09 by yboughan         ###   ########.fr       */
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -16,7 +20,25 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+<<<<<<< HEAD
+char *get_big_buffer(int fd , char *rest)
+{
+	char tmp[BUFFER_SIZE+1];
+	int nb_buff;
+
+/*	if(!rest)
+	{
+		printf("nu");
+		rest = malloc(1);
+		rest[0] = 0;
+	}*/
+	nb_buff = 1;
+	while (!strchr(rest, '\n') && nb_buff != 0)
+	{
+		nb_buff = read(fd,tmp,BUFFER_SIZE);
+=======
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
@@ -57,11 +79,15 @@ void	goto_next_line(int fd , char *rest , int *nb_buff)
 	}
 	return;
 }
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 
-int is_new_line(char *buffer)
-{
-	int i;
+		if (nb_buff == -1)
+			return(NULL);
 
+<<<<<<< HEAD
+		tmp[nb_buff] = '\0';
+		rest = ft_strjoin(rest , tmp);
+=======
 	i = 0;
 	if ( buffer == NULL)
 		return(0);
@@ -70,13 +96,17 @@ int is_new_line(char *buffer)
 		if ( buffer[i] == '\n')
 			return (1);
 		i++;
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 	}
-	return (0);
+	return (rest);
 }
 
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 char *get_current_line(char *big_buffer)
 {
 	int len_c_l;
@@ -126,14 +156,26 @@ char *get_rest(char *big_buffer)
 }
 
 
-
 char *get_next_line(int fd)
 {
+<<<<<<< HEAD
+	static char *rest;
+=======
 	static char rest[1024][1];
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 	char *current_line;
-	int nb_buffer;
 	
 	if (BUFFER_SIZE <= 0)
+<<<<<<< HEAD
+		return (NULL);	
+	rest = get_big_buffer(fd , rest);
+	printf("big : %s", rest);
+//	current_line = get_current_line(big_buffer);
+//	rest[fd] = get_rest(big_buffer);
+//	free(big_buffer);
+//	return(current_line);
+	return(" test ");
+=======
 		return (NULL);
 
 	goto_next_line(fd , rest[fd] , &nb_buffer);
@@ -153,4 +195,5 @@ char *get_next_line(int fd)
 //	return(current_line);
 
 	return("");
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 }

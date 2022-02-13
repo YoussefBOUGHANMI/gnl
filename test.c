@@ -23,6 +23,10 @@ int main()
 	char res1[4];
 	fd1 = open("test1.txt",O_RDONLY);
 	fd2 = open("test2.txt",O_RDONLY);
+<<<<<<< HEAD
+//	res = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
+//	res1 = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
+=======
 	int i = 0;
 	//res = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
 	get_next_line(fd1);
@@ -39,6 +43,7 @@ int main()
 	res = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
 //	res1 = malloc((BUFFER_SIZE + 1 ) * sizeof(char));
 	
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 
 	i = read(fd1 , res , BUFFER_SIZE);
 	res[i] = 0;
@@ -49,12 +54,21 @@ int main()
 	res[i] = 0;
 	printf("i : %i \n%s\n" , i , res1);
 
+<<<<<<< HEAD
+*/
+	get_next_line(fd1);
+/*
+	while ( i < 3)
+	{
+		printf("\n res : %s\n " , get_next_line(fd1));
+=======
 
 
 	while ( i < 2)
 	{
 		res = get_next_line(fd1);
 		printf("res : %s " , res);
+>>>>>>> fb447cd52952fd2e5ef37247948982d63dde90ac
 		i++;
 	}
 

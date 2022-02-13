@@ -6,7 +6,7 @@
 /*   By: yboughan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 11:08:29 by yboughan          #+#    #+#             */
-/*   Updated: 2022/02/06 15:24:24 by yboughan         ###   ########.fr       */
+/*   Updated: 2022/02/13 10:06:04 by youssef          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,47 +44,31 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 }
 
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *left_str, char *buff)
 {
-	size_t	len_s1;
-	size_t	len_s2;
-	char	*s3;
+	size_t	i;
+	size_t	j;
+	char	*str;
 
-	if (!s1)
-		return ((char *)s2);
-	if (!s2)
-		return ((char *)s1);
-	len_s1 = ft_strlen((char *)s1);
-	len_s2 = ft_strlen((char *)s2);
-	s3 = malloc((len_s1 + len_s2 + 1) * sizeof(char));
-	if (!s3)
-		return (NULL);
-	ft_strlcpy((char *)s3, (char *)s1, len_s1 + 1);
-	ft_strlcpy((char *)(s3 + len_s1), (char *)s2, len_s2 + 1);
-	return (s3);
-}
-
-
-char *get_last_line(char *big_buffer)
-{
-	int len_c_l;
-	int i;
-	char *current_line;
-
-	len_c_l = 0;
-	i = 0;
-	while ( big_buffer[len_c_l] != '\n')
-		len_c_l++;
-
-//	printf("len : %d \n" , len_c_l);
-	current_line = malloc((len_c_l + 1) * sizeof(char));
-
-	while (i < len_c_l)
+	if (!left_str)
 	{
-		current_line[i] = big_buffer[i];
-		i++;
+		left_str = (char *)malloc(1 * sizeof(char));
+		left_str[0] = '\0';
 	}
-	current_line[i] = '\0';
-	return(current_line);
+	if (!left_str || !buff)
+		return (NULL);
+	str = malloc(sizeof(char) * ((ft_strlen(left_str) + ft_strlen(buff)) + 1));
+	if (str == NULL)
+		return (NULL);
+	i = -1;
+	j = 0;
+	if (left_str)
+		while (left_str[++i] != '\0')
+			str[i] = left_str[i];
+	while (buff[j] != '\0')
+		str[i++] = buff[j++];
+	str[ft_strlen(left_str) + ft_strlen(buff)] = '\0';
+	free(left_str);
+	return (str);
 }
 
